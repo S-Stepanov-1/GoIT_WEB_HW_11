@@ -20,4 +20,7 @@ class NoteResponse(NoteModel):
         from_attributes = True
 
 
-
+class NoteUpdate(BaseModel):
+    email: Optional[EmailStr]
+    phone_number: Optional[PhoneNumber]
+    position: Optional[str]
