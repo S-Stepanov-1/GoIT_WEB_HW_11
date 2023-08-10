@@ -4,8 +4,12 @@ from sqlalchemy.orm import Session
 
 from notes.database.db_connect import get_db
 
+from notes.routes import notes
 
 app = FastAPI()
+
+
+app.include_router(notes.router, prefix="/api")
 
 
 @app.get("/api/healthchecker")
