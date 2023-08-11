@@ -23,14 +23,21 @@ async def read_note(note_id: int, db: Session = Depends(get_db)):
     return note
 
 
-@router.post("/", response_model=NoteResponse)
+@router.post("/", response_model=NoteResponse,  status_code=status.HTTP_201_CREATED)
 async def create_note(body: NoteModel, db: Session = Depends(get_db)):
     return await notes.create_note(body, db)
 
 
 @router.delete("/{note_id}")
 async def delete_note(note_id: int, db: Session = Depends(get_db)):
-    return await notes.delete_note(note_id, db)
+    note = await notes.delete_note(note_id, db)
+    if note is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="NOT FOUND",
+        )
+
+    return note
 
 
 @router.put("/{note_id}", response_model=NoteResponse)
