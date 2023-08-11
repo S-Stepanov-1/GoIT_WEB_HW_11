@@ -10,9 +10,10 @@ packages = [{include = "goit_web_hw_11"}]
 python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.101.0"}
 sqlalchemy = "^2.0.19"
-alembic = "^1.11.2"
 psycopg2 = "^2.9.7"
 phonenumbers = "^8.13.18"
+faker = "^19.3.0"
+alembic = "^1.11.2"
 
 
 [build-system]

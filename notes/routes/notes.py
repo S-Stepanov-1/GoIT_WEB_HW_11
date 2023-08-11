@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status, Query
 from sqlalchemy.orm import Session
 
 from notes.database.db_connect import get_db
@@ -21,6 +21,20 @@ async def read_note(note_id: int, db: Session = Depends(get_db)):
     if note is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note not found")
     return note
+
+
+# @router.get("/", response_model=List[NoteResponse])
+# async def read_notes(
+#     q: str = Query(None, description="Search query for name, last name, or email"),
+#     skip: int = 0,
+#     limit: int = 10,
+#     db: Session = Depends(get_db)
+# ):
+#     if q:
+#         notes = await notes.search_notes(q, skip, limit, db)
+#     else:
+#         notes = await notes.get_notes(skip, limit, db)
+#     return notes
 
 
 @router.post("/", response_model=NoteResponse,  status_code=status.HTTP_201_CREATED)

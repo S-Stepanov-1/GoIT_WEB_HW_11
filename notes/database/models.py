@@ -11,6 +11,6 @@ class Note(Base):
     first_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
     email = Column(String(50), nullable=True, unique=True)
-    phone_number = Column(String(20), nullable=False, unique=True)
+    phone_number = Column(String(30), nullable=False, unique=True)
     birthday = Column(Date, nullable=True)
     position = Column(String(50), nullable=True)
