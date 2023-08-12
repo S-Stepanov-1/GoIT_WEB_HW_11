@@ -11,7 +11,11 @@ router = APIRouter(prefix='/notes')
 
 
 @router.get("/", response_model=List[NoteResponse])
-async def read_notes(query: str | None = None, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def read_notes(query: str = Query(None, description="Search by name, last name, or email"),
+                     skip: int = Query(0, description="Number of records to skip"),
+                     limit: int = Query(10, description="Number of records to retrieve"),
+                     db: Session = Depends(get_db)):
+
     if query:
         return await notes.search_notes(query, skip, limit, db)
     else:
