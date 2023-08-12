@@ -11,8 +11,11 @@ router = APIRouter(prefix='/notes')
 
 
 @router.get("/", response_model=List[NoteResponse])
-async def read_notes(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return await notes.get_notes(skip, limit, db)
+async def read_notes(query: str | None = None, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    if query:
+        return await notes.search_notes(query, skip, limit, db)
+    else:
+        return await notes.get_notes(skip, limit, db)
 
 
 @router.get("/{note_id}", response_model=NoteResponse)
@@ -21,20 +24,6 @@ async def read_note(note_id: int, db: Session = Depends(get_db)):
     if note is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note not found")
     return note
-
-
-# @router.get("/", response_model=List[NoteResponse])
-# async def read_notes(
-#     q: str = Query(None, description="Search query for name, last name, or email"),
-#     skip: int = 0,
-#     limit: int = 10,
-#     db: Session = Depends(get_db)
-# ):
-#     if q:
-#         notes = await notes.search_notes(q, skip, limit, db)
-#     else:
-#         notes = await notes.get_notes(skip, limit, db)
-#     return notes
 
 
 @router.post("/", response_model=NoteResponse,  status_code=status.HTTP_201_CREATED)

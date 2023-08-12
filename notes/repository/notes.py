@@ -1,6 +1,7 @@
 from typing import List, Type
 
 from fastapi import HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -71,3 +72,13 @@ async def patch_update_note(note_id: int, body: NoteResponse, db: Session):
 
         db.commit()
         return note
+
+
+async def search_notes(q: str, skip: int, limit: int, db: Session) -> List[Type[Note]]:
+    required_notes = db.query(Note).filter(
+        func.lower(Note.first_name).like(f"%{q.lower()}%") |
+        func.lower(Note.last_name).like(f"%{q.lower()}%") |
+        func.lower(Note.email).like(f"%{q.lower()}%")
+    ).offset(skip).limit(limit)
+
+    return required_notes.all()
