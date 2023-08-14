@@ -1,6 +1,8 @@
 from typing import List, Type
+from datetime import date, timedelta
 
 from fastapi import HTTPException
+
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -20,6 +22,7 @@ async def create_note(body: NoteModel, db: Session) -> Note:
         db.commit()
         db.refresh(note)
         return note
+
     except IntegrityError as err:
         db.rollback()
 
@@ -60,10 +63,12 @@ async def put_update_note(note_id: int, body: NoteModel, db: Session) -> Type[No
         note.position = body.position
 
         db.commit()
+        db.refresh(note)
+
         return note
 
 
-async def patch_update_note(note_id: int, body: NoteResponse, db: Session):
+async def patch_update_note(note_id: int, body: NoteResponse, db: Session) -> Type[Note]:
     note = db.query(Note).filter_by(id=note_id).first()
     if note:
         note.email = body.email or note.email
@@ -82,3 +87,21 @@ async def search_notes(q: str, skip: int, limit: int, db: Session) -> List[Type[
     ).offset(skip).limit(limit)
 
     return required_notes.all()
+
+
+async def get_upcoming_birthdays(days: int, db: Session) -> List[Type[Note]]:
+    upcoming_birthdays = []
+
+    today = date.today()
+    end_date = today + timedelta(days=days)
+
+    all_notes = db.query(Note).all()
+    for note in all_notes:
+        if end_date >= note.birthday.replace(year=today.year) > today:  # birthdays in this year
+            upcoming_birthdays.append(note)
+
+        if end_date >= note.birthday.replace(year=today.year + 1) > today:  # birthdays in the next year
+            upcoming_birthdays.append(note)
+
+    if upcoming_birthdays:
+        return upcoming_birthdays

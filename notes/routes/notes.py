@@ -15,11 +15,14 @@ async def read_notes(query: str = Query(None, description="Search by name, last 
                      skip: int = Query(0, description="Number of records to skip"),
                      limit: int = Query(10, description="Number of records to retrieve"),
                      db: Session = Depends(get_db)):
-
     if query:
-        return await notes.search_notes(query, skip, limit, db)
+        note_list = await notes.search_notes(query, skip, limit, db)
     else:
-        return await notes.get_notes(skip, limit, db)
+        note_list = await notes.get_notes(skip, limit, db)
+
+    if len(note_list) != 0:
+        return note_list
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No notes were found")
 
 
 @router.get("/{note_id}", response_model=NoteResponse)
@@ -30,7 +33,17 @@ async def read_note(note_id: int, db: Session = Depends(get_db)):
     return note
 
 
-@router.post("/", response_model=NoteResponse,  status_code=status.HTTP_201_CREATED)
+@router.get("/upcoming_birthdays/", response_model=List[NoteResponse])
+async def get_upcoming_birthdays(days: int = Query(7, description="Upcoming birthdays in the next 7 days"),
+                                 db: Session = Depends(get_db)):
+
+    upcoming_birthdays = await notes.get_upcoming_birthdays(days, db)
+    if upcoming_birthdays:
+        return upcoming_birthdays
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Notes not found")
+
+
+@router.post("/", response_model=NoteResponse, status_code=status.HTTP_201_CREATED)
 async def create_note(body: NoteModel, db: Session = Depends(get_db)):
     return await notes.create_note(body, db)
 
