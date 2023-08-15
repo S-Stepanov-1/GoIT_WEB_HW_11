@@ -1,6 +1,29 @@
 # GoIT_WEB_HW_11
 Individual homework №11 at GoIT school
-<br>Tools: **`FastAPI`**, **`PostgreSQL`**, **`SQLAlchemy`**, **`Alembic`** and **`Docker`**
+
+<div>
+  <a href="https://www.python.org" target="_blank">
+    <img src="https://www.python.org/static/community_logos/python-logo.png" alt="Python" height="30">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://fastapi.tiangolo.com" target="_blank">
+    <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="FastAPI" height="30">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.postgresql.org" target="_blank">
+    <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL" height="30">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.sqlalchemy.org" target="_blank">
+    <img src="https://www.sqlalchemy.org/img/sqla_logo.png" alt="SQLAlchemy" height="30">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.docker.com" target="_blank">
+    <img src="https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic.png" alt="Docker" height="30">
+  </a>
+</div>
+
+
 
 ## Description
 
