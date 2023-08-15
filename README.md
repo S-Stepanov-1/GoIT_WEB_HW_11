@@ -27,7 +27,7 @@ Individual homework №11 at GoIT school
 
 ## Description
 
-This project is developed using **FastAPI**, **PostgreSQL**, **SQLAlchemy**, **Alembic** and **Docker**. The project provides a RESTful API for managing your notes. In this repository, you will find functionalities for creating, retrieving, updating, and deleting notes, as well as searching for contacts by name, last name, or email address.
+The project provides a RESTful API for managing your contacts. In this repository, you will find functionalities for creating, retrieving, updating, and deleting contacts, as well as searching for contacts by name, last name, or email address.
 
 ## Functionalities
 
@@ -40,7 +40,7 @@ Users can retrieve a list of all contacts, including information about each cont
 ### Get Contact by Identifier
 Users can retrieve information about a specific contact by providing its identifier.
 
-### Update Contact (using both `PUT` and `PATCH` methods)
+### Update Contact (using both **PUT** and **PATCH** methods)
 Users can update information about an existing contact, including its first name, last name, email address, phone number, birthday, and position.
 
 ### Delete Contact
@@ -74,7 +74,7 @@ To run the project on your computer, follow these steps:
 
 4. Run a Docker container with PostgreSQL database or use analog:
     ```
-    docker run --name notes_postgres -p 5432:5432 -e POSTGRES_PASSWORD=your own password -d postgres
+    docker run --name contacts_postgres -p 5432:5432 -e POSTGRES_PASSWORD=your own password -d postgres
     ```
 
 5. Perform migrations to create tables in the database:
